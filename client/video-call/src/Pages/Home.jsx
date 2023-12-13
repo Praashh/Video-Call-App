@@ -16,8 +16,6 @@ const Home = () => {
   }, [navigate]
   )
 
-
-
   useEffect(()=>{
     socket.on('joined-room', handleRoomJoined);
 
@@ -30,19 +28,27 @@ const Home = () => {
   const handleJoinRoom = () =>{
    socket.emit('join-room', {roomId: room, email: email})
   }
+
+  const cardStyle = {
+    display: 'flex',
+    flexDirection:'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+  }
   return (
     <div>
-       <Card style={{height: '50vh', width: '50vw',padding: '3rem', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+       <div style={cardStyle}>
         <Box  style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Typography margin={3} variant="h5">Enter Your Email:- </Typography>
-        <TextField value={email} id="outlined-basic" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)}/>
+        <Typography margin={3} variant="h5" style={{color:'white'}}>Enter Your Email:- </Typography>
+        <TextField value={email} id="outlined-basic" label="Email" variant="outlined" style={{background:'white', borderRadius:'19px'}} onChange={(e) => setEmail(e.target.value)}/>
         </Box>
         <Box margin={2} style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Typography margin={3} variant="h5">Enter Room ID:- </Typography>
-        <TextField value={room} id="outlined-basic" label="Room" variant="outlined" onChange={(e)=> setRoom(e.target.value)}/>
+        <Typography margin={3} variant="h5" style={{color:'white'}}>Enter Room ID:- </Typography>
+        <TextField value={room} id="outlined-basic" label="Room" variant="outlined" style={{background:'white', borderRadius:'19px'}} onChange={(e)=> setRoom(e.target.value)}/>
         </Box>
         <Button variant="contained" onClick = {handleJoinRoom}>Join Room</Button>
-       </Card>
+       </div>
     </div>
   )
 }

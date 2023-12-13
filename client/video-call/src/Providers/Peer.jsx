@@ -40,13 +40,29 @@ export const PeerProvider = (props) => {
     await peer.setRemoteDescription(ans);
   }
 
-  const sendStream = async(stream) =>{
-    const tracks = await stream.getTracks();
-    for(const track of tracks){
-      peer.addTrack(track, stream);
-    }
-  }
-
+  // const sendStream = async(stream) =>{
+  //   const tracks = await stream.getTracks();
+  //   for(const track of tracks){
+  //     peer.addTrack(track, stream);
+  //   }
+  // }
+  const sendStream = async (stream) => {
+    if (!stream) return;
+  
+    const tracks = stream.getTracks();
+    const senders = peer.getSenders();
+  
+    tracks.forEach((track) => {
+      const existingSender = senders.find((sender) => sender.track && sender.track.id === track.id);
+  
+      if (!existingSender) {
+        peer.addTrack(track, stream);
+      } else {
+        console.log('Sender already exists for this track');
+      }
+    });
+  };
+  
   const handleTrackEvent = useCallback((event)=>{
     const streams = event.streams;
     setRemoteStream(streams[0]);
@@ -63,6 +79,7 @@ export const PeerProvider = (props) => {
     
     }
   }, [peer, handleTrackEvent])
+
 
   return (
     <PeerContext.Provider value={{ peer, createOffer, createAnswer, setRemoteAnswer, sendStream, remoteStream }}>

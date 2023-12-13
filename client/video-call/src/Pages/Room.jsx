@@ -55,8 +55,9 @@ const Room = () => {
     }
   }, [socket, handleNewUserJoined, handleIncomingCall, handleCallAccepted]);
 
-  const handleNegotiation = useCallback((event)=>{
-    const localOffer = peer.localDescription;
+  const handleNegotiation = useCallback(async(event)=>{
+    const localOffer = await peer.localDescription;
+    console.log(localOffer)
     socket.emit('call-user', {email: remoteEmail, offer: localOffer});
   },[peer.localDescription, remoteEmail, socket])
 

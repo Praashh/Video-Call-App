@@ -3,6 +3,7 @@ import Home from "./Pages/Home"
 import { SocketProvider } from "./Providers/Socket"
 import { PeerProvider } from "./Providers/Peer"
 import Room from "./Pages/Room"
+import VideoBackground from "./Components/VideoBackground"
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     <>
       <SocketProvider>
       <PeerProvider>
+      <VideoBackground/>
         <Routes>
               <Route path="/" element={<Home/>} />
               <Route path="/room/:roomId" element={<Room/>} />
